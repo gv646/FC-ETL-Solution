@@ -1,9 +1,26 @@
 # Customer Purchases Data Pipeline
 
 ## Overview
-This repository contains an end-to-end **ETL data pipeline** built on AWS to process customer purchase data from raw ingestion in **S3** to analytics-ready datasets in **Amazon RDS**.  
+This repository contains an end-to-end **ETL data pipeline** built on AWS cloud to process customer purchase data from raw ingestion in **S3** to analytics-ready datasets in **Amazon RDS**.  
 The solution uses **AWS Glue**, **AWS Step Functions**, and **AWS Lambda** to orchestrate and automate data transformations across **Bronze → Silver → Gold** layers.
 
+### Features of the solution
+#### High Level Design
+1. Medallion Architecture Pattern
+2. Event-Driven Orchestration 
+4. Incremental processing — only new data is processed each time.
+5. Scalability and Reliability
+   - Glue jobs leverage Spark for distributed processing, enabling scaling to large datasets without major code changes.
+   - S3 provides virtually unlimited storage with high durability.
+   - Step Functions ensure fault-tolerant orchestration with retries and error handling.
+7. Automated — no manual intervention.
+8. Easily extendable to additional downstream systems (Redshift, Elasticsearch, BI tools).
+#### Low Level Design
+1. Extensibility
+   - Modularised code with OOPs followed.
+   - Demonstrated seperation of concerns.
+   - Reusability of common functionalities.
+2. Testable - Unit test integrations.
 ---
 
 ## Architecture
