@@ -1,0 +1,74 @@
+Comment: "ETL pipeline with file-specific arguments"
+StartAt: BronzeToSilver
+States:
+  BronzeToSilver:
+    Type: Task
+    Resource: arn:aws:states:::glue:startJobRun.sync
+    Parameters:
+      JobName: "bronze_to_silver_job"
+      Arguments:
+        "--year.$": "$.year"
+        "--month.$": "$.month"
+        "--day.$": "$.day"
+        "--s3_path.$": "$.s3_path"
+    Next: SilverToGold
+    Catch:
+      - ErrorEquals: ["States.ALL"]
+        ResultPath: "$.error"
+        Next: FailureNotification
+
+  SilverToGold:
+    Type: Task
+    Resource: arn:aws:states:::glue:startJobRun.sync
+    Parameters:
+      JobName: "silver_to_gold_job"
+      Arguments:
+        "--year.$": "$.year"
+        "--month.$": "$.month"
+        "--day.$": "$.day"
+    Next: GoldToRDS
+    Catch:
+      - ErrorEquals: ["States.ALL"]
+        ResultPath: "$.error"
+        Next: FailureNotification
+
+  GoldToRDS:
+    Type: Task
+    Resource: arn:aws:states:::glue:startJobRun.sync
+    Parameters:
+      JobName: "gold_to_rds_job"
+      Arguments:
+        "--year.$": "$.year"
+        "--month.$": "$.month"
+        "--day.$": "$.day"
+    Next: UpsertToRDS
+    Catch:
+      - ErrorEquals: ["States.ALL"]
+        ResultPath: "$.error"
+        Next: FailureNotification
+
+  UpsertToRDS:
+    Type: Task
+    Resource: arn:aws:states:::lambda:invoke
+    Parameters:
+      FunctionName: "upsert_to_rds_lambda"
+      Payload:
+        year.$: "$.year"
+        month.$: "$.month"
+        day.$: "$.day"
+    Next: SuccessNotification
+    Catch:
+      - ErrorEquals: ["States.ALL"]
+        ResultPath: "$.error"
+        Next: FailureNotification
+
+  SuccessNotification:
+    Type: Pass
+    Result:
+      Message: "ETL pipeline completed successfully"
+    End: true
+
+  FailureNotification:
+    Type: Fail
+    Error: "ETLJobFailed"
+    Cause: "One of the Glue jobs or Lambda failed."
