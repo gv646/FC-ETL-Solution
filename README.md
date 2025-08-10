@@ -7,7 +7,8 @@ The solution uses **AWS Glue**, **AWS Step Functions**, and **AWS Lambda** to or
 ### Features of the solution
 #### High Level Design
 1. Medallion Architecture Pattern
-2. Event-Driven Orchestration 
+2. Event-Driven Orchestration
+3. Serverless Architecture
 4. Incremental processing — only new data is processed each time.
 5. Scalability and Reliability
    - Glue jobs leverage Spark for distributed processing, enabling scaling to large datasets without major code changes.
