@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository showcases a **production-ready, enterprise-grade ETL data pipeline** built on AWS cloud infrastructure to process customer purchase data from raw ingestion to analytics-ready insights. The solution implements a modern **Medallion Architecture** pattern, orchestrating seamless data transformations across **Bronze → Silver → Gold** layers using **AWS Glue**, **AWS Step Functions**, and **AWS Lambda**.
+This repository showcases a **production-ready ETL data pipeline** built on AWS cloud infrastructure to process customer purchase data from raw ingestion to analytics-ready insights. The solution implements a modern **Medallion Architecture** pattern, orchestrating seamless data transformations across **Bronze → Silver → Gold** layers using **AWS Glue**, **AWS Step Functions**, and **AWS Lambda**.
 
 ---
 
@@ -95,7 +95,7 @@ This repository showcases a **production-ready, enterprise-grade ETL data pipeli
 
 **Output**: `s3://customer-purchases/datalake/gold/year=YYYY/month=MM/day=DD/`
 
-** Lakehouse Architecture**: Data queryable via **Amazon Athena** using AWS Glue Data Catalog
+**Lakehouse Architecture**: Data queryable via **Amazon Athena** using AWS Glue Data Catalog
 
 ### **5. Gold → RDS Staging Load**
 ```python
@@ -122,7 +122,7 @@ This repository showcases a **production-ready, enterprise-grade ETL data pipeli
 
 The entire pipeline is orchestrated through a sophisticated **AWS Step Functions** state machine, ensuring reliable, fault-tolerant execution.
 
-#### ** Configuration File**: `step_function.yaml`
+#### **Configuration File**: `step_function.yaml`
 
 ```yaml
 Comment: "ETL pipeline with file-specific arguments"
@@ -238,8 +238,6 @@ ON customer_purchase_summary (total_spent_aud DESC);
 ```
 
 ---
-
-## Business Intelligence Query
 
 ### **Top 5 Customers by Total Spend**
 ```sql
