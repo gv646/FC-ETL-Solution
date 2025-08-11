@@ -234,7 +234,7 @@ CREATE TABLE customer_purchase_summary (
 ### **Performance Optimization**
 ```sql
 CREATE INDEX idx_total_spent_desc 
-ON customer_purchase_summary (total_spent_aud DESC);
+ON customer_purchase_summary (total_spent_aud DESC,customer_id,full_name,email);
 ```
 
 ---
